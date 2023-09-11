@@ -12,7 +12,7 @@ const CreateUser = () => {
     }
 
     const a = useContext(Context);
-    const { user, createNewUser, getAllUsers,error,setError,editActiveStatus, handleLogout,spinner,activeStatusUser } = a;
+    const {seteditAccess, user, createNewUser, getAllUsers,error,setError,editActiveStatus, handleLogout,spinner,activeStatusUser } = a;
     
 
     const [input, setInput] = useState({ name: '', firmname: '', apikey: '', contact: '', password: '' });
@@ -44,7 +44,7 @@ const CreateUser = () => {
     }
   
     useEffect(() => {
-  
+        seteditAccess(false);
         if (!localStorage.getItem('token') ) {
           
           handleLogout()

@@ -1,11 +1,15 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext,useEffect } from 'react'
 import Context from '../context/Context';
+import { useNavigate } from 'react-router-dom';
 
 const UserSetting = () => {
+    let active;
+    const navigate = useNavigate();
     const [boolValue, setboolValue] = useState(true)
     let userData = JSON.parse(localStorage.getItem('user'));
     const a = useContext(Context);
-    const { setError, error, editUserData } = a;
+    
+    const { setError, error, editUserData,activeStatusUser,handleLogout,editAccess } = a;
     const [input, setInput] = useState({ name: userData.name, firmname: userData.firmname, apikey: userData.apikey, contact: userData.contact, password: '' });
     const onChange = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value })
@@ -42,8 +46,41 @@ const UserSetting = () => {
         setboolValue(true)
     }
 
+    useEffect(() => {
+   
+        if (!localStorage.getItem('token')) {
+    
+          handleLogout()
+          navigate('/login');
+    
+    
+        }
+        else {
+          active = JSON.parse(localStorage.getItem('user')).active;
+          if (active === false) {
+            setError({ 'error': 'YOUR ACCESS IS STOPPED BY ADMIN PLEASE RENEWAL YOUR ACCOUNT' })
+            handleLogout()
+            navigate('/login');
+          }
+          else {
+            if(editAccess===false){
+                navigate('/setting')
+            }
+            else{
+            activeStatusUser()
+            navigate('/accountSetting')
+            }
+          }
+    
+        }
+    
+    
+      }, [])
+ 
 
     return (
+        (!localStorage.getItem('token')) || active === false ? "" :
+        editAccess===false?'':
         <div className='container'>
             <div className='row'>
                 <h4 className='mb-5 mt-4 text-center text-danger'>Here You Can Make Changes In Your Account Profile.</h4>

@@ -3,13 +3,15 @@ import React, { useState } from "react";
 import { useDispatch } from 'react-redux'
 import { fetchClientWithPlan } from '../redux/slices/ClientWithGymPlanSlice'
 
-const host = 'https://gymfactoryapi.vercel.app' 
+const host = 'https://gymfactoryapi.vercel.app'
 
 const State = (props) => {
   const dispatch = useDispatch();
 
   // usestate for errors
   const [error, setError] = useState('')
+
+  const [editAccess, seteditAccess] = useState(false)
 
   // date formate function
   const setDatefunc = (date) => {
@@ -110,22 +112,7 @@ const State = (props) => {
 
   };
 
-  // edit user password 
-  const editUserPassword = async (id, password) => {
-    const response = await fetch(`${host}/api/auth/edituser/${id}`,
-      {
-        method: "PUT",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ password })
-      }
-    );
-    const data = await response.json();
-    return data;
-
-  };
+  
 
   // api for get all user of fitness only superadmin can access
   const getAllUsers = async () => {
@@ -153,27 +140,7 @@ const State = (props) => {
 
 
 
-  // api for get a user for creating new password
-  const getEmailofUser = async (contact) => {
-    const response = await fetch(`${host}/api/auth/createnewpassword`,
-      {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ contact })
-      }
-    );
-    const data = await response.json();
-    if (data.success) {
-      return data.user;
-    }
-    else {
-      setError(data)
-    }
-  }
-
+ 
   const whatsAppApi = async (clientNumber, message) => {
     let apikey = JSON.parse(localStorage.getItem('user')).apikey;
     if (apikey !== '' && clientNumber.length === 10) {
@@ -200,7 +167,26 @@ const State = (props) => {
     return data;
     
   }
+ 
 
+  // verification
+   // Login api for user 
+   const verifyUser = async (password) => {
+    const response = await fetch(`${host}/api/auth/verifyUser`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'auth-token': localStorage.getItem('token')
+      },
+      body: JSON.stringify({password })
+    });
+    let data = await response.json();
+    return data;
+    
+  }
+
+  // logout
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user')
@@ -227,7 +213,7 @@ const State = (props) => {
 
   // edit user api =>name||firmname||contact||password||apikey
 
-  const editUserData = async (id, userData) => {
+  const editUserData = async (id,userData) => {
     const { name, firmname, contact, apikey, password } = userData
     const response = await fetch(`${host}/api/auth/edituser/${id}`,
       {
@@ -254,12 +240,14 @@ const State = (props) => {
     <div>
       <GymContext.Provider value={{
         user, error,
-        editUserPassword, getEmailofUser, editActiveStatus, setError,
+        editActiveStatus, setError,
         getAllUsers, createNewUser,
         addClientWithSub,
         updateActiveClient, whatsAppApi, setDatefunc, handleLogout
         , activeStatusUser, logInUser,
-        editUserData
+        editUserData,
+        verifyUser,
+        editAccess, seteditAccess
       }}>
         {props.children}
       </GymContext.Provider>

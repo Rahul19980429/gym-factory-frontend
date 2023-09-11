@@ -19,10 +19,10 @@ const Home = () => {
   let active;
 
   const a = useContext(Context);
-  const { setError, handleLogout, activeStatusUser } = a;
+  const { setError, handleLogout, activeStatusUser,seteditAccess} = a;
 
   useEffect(() => {
-   
+    seteditAccess(false);
     if (!localStorage.getItem('token')) {
 
       handleLogout()
@@ -31,6 +31,7 @@ const Home = () => {
 
     }
     else {
+     
       active = JSON.parse(localStorage.getItem('user')).active;
       if (active === false) {
         setError({ 'error': 'YOUR ACCESS IS STOPPED BY ADMIN PLEASE RENEWAL YOUR ACCOUNT' })

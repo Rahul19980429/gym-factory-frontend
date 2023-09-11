@@ -12,7 +12,7 @@ const CreateGymPlan = () => {
   let active;
 
   const a = useContext(Gymplan);
-  const {  setError, handleLogout, activeStatusUser } = a;
+  const {  setError, handleLogout, activeStatusUser,seteditAccess } = a;
 
 
   const [input, setInput] = useState({ planMonth: '', planFee: '', planDesc: '' });
@@ -55,6 +55,7 @@ const CreateGymPlan = () => {
 
     }
     else {
+      seteditAccess(false);
       active = JSON.parse(localStorage.getItem('user')).active;
       if (active === false) {
         setError({ 'error': 'YOUR ACCESS IS STOPPED BY ADMIN PLEASE RENEWAL YOUR ACCOUNT' })

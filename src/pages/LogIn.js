@@ -32,8 +32,6 @@ const LogIn = () => {
                 <div className='col-lg-4 offset-lg-4 card setbgImg bg-dark bg-opacity-75 mt-5'  >
                     <div className='card-body text-center px-3 pt-4'>
                        <LoginForm/>
-                       
-                        {/* <Link to="/forget" className='text-white text-decoration-none'>Forget Password?</Link> */}
                     </div>
                 </div>
             </div>

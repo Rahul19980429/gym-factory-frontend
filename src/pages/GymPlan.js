@@ -10,10 +10,11 @@ const GymPlan = () => {
   const dispatch = useDispatch();
   const gymPlan = useSelector((state) => state.gymplan)
   const a = useContext(Context);
-  const { addClientWithSub,spinner,setError,handleLogout } = a;
+  const { addClientWithSub,spinner,setError,handleLogout,seteditAccess } = a;
 
  
   useEffect(() => {
+    seteditAccess(false);
     if (localStorage.getItem('token') &&  JSON.parse(localStorage.getItem('user')).active===true) {
       dispatch(fetchGymPlan())
     }

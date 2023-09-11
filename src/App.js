@@ -11,6 +11,7 @@ import SubscriptedClient from './pages/SubscriptedClients';
 import CreateUser from './pages/CreateUser';
 import CreateGymPlan from './pages/CreateGymPlan';
 import UserSetting from './pages/UserSetting';
+import VerifyUser from './pages/VerifyUser';
 
 
 
@@ -42,7 +43,9 @@ function App() {
               {/* this is create gym plan page router */}
               <Route exact path="/createGymPlan" element={<CreateGymPlan />} />
               {/* this is user setting page router */}
-              <Route exact path="/setting" element={<UserSetting/>} />
+              <Route exact path="/setting" element={<VerifyUser/>} />
+               {/* this is user setting page router */}
+               <Route exact path="/accountSetting" element={<UserSetting/>} />
 
               {/* default */}
               <Route path="*" element={<Navigate to="/login" />} />

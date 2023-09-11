@@ -14,7 +14,7 @@ const AddNewClient = () => {
     let navigate = useNavigate();
     let active;
     const a = useContext(Context);
-    const { setError, handleLogout, activeStatusUser } = a;
+    const { setError, handleLogout, activeStatusUser,seteditAccess } = a;
     // fatch all clients
 
     const filterClient = async (e) => {
@@ -38,7 +38,7 @@ const AddNewClient = () => {
         }
       }
     useEffect(() => {
-
+        seteditAccess(false);
         if (!localStorage.getItem('token')) {
 
             handleLogout()
