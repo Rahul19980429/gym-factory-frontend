@@ -1,15 +1,13 @@
-import React, { useState, useContext,useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import Context from '../context/Context';
-import { useNavigate } from 'react-router-dom';
 
 const UserSetting = () => {
     let active;
-    const navigate = useNavigate();
     const [boolValue, setboolValue] = useState(true)
     let userData = JSON.parse(localStorage.getItem('user'));
     const a = useContext(Context);
     
-    const { setError, error, editUserData,activeStatusUser,handleLogout,editAccess } = a;
+    const { setError, error, editUserData,editAccess } = a;
     const [input, setInput] = useState({ name: userData.name, firmname: userData.firmname, apikey: userData.apikey, contact: userData.contact, password: '' });
     const onChange = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value })
@@ -46,36 +44,7 @@ const UserSetting = () => {
         setboolValue(true)
     }
 
-    useEffect(() => {
    
-        if (!localStorage.getItem('token')) {
-    
-          handleLogout()
-          navigate('/login');
-    
-    
-        }
-        else {
-          active = JSON.parse(localStorage.getItem('user')).active;
-          if (active === false) {
-            setError({ 'error': 'YOUR ACCESS IS STOPPED BY ADMIN PLEASE RENEWAL YOUR ACCOUNT' })
-            handleLogout()
-            navigate('/login');
-          }
-          else {
-            if(editAccess===false){
-                navigate('/setting')
-            }
-            else{
-            activeStatusUser()
-            navigate('/accountSetting')
-            }
-          }
-    
-        }
-    
-    
-      }, [])
  
 
     return (
@@ -125,7 +94,7 @@ const UserSetting = () => {
                             <input autoComplete='off' type="text" className="setbgImg text-white  border-0 form-control" placeholder='Create New Password' minLength={6} onChange={onChange} value={input.password} id="password" name="password" />
 
                         </div>
-                        <div className="input-group mb-3 text-danger ">
+                        <div className="input-group mb-3 text-danger justify-content-center">
                             {error.error}
                         </div>
                         <div className="d-flex gap-2 mt-2">

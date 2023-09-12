@@ -4,12 +4,12 @@ import { InsertNewClient, setError } from '../redux/slices/ClientSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const FormClient = () => {
+    
     const dispatch = useDispatch();
     const {  error } = useSelector((state) => state.client)
 
     const [input, setInput] = useState({ name: '', address: '', contact: '' });
-
-    const onChange = (e) => {
+     const onChange = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value })
         setError('')
 
@@ -20,7 +20,6 @@ const FormClient = () => {
             alert("Empty field is not allowed")
         }
         else {
-            // InsertNewClient(input.name, input.address, input.contact)
             dispatch(InsertNewClient(input))
             setInput({ name: '', address: '', contact: '' })
         }

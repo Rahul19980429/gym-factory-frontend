@@ -119,7 +119,7 @@ const SubscriptedClient = () => {
 
     }
     else {
-      seteditAccess(false);
+    
       active = JSON.parse(localStorage.getItem('user')).active;
       if (active === false) {
         setError({ 'error': 'YOUR ACCESS IS STOPPED BY ADMIN PLEASE RENEWAL YOUR ACCOUNT' })

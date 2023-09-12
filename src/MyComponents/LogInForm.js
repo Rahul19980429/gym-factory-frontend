@@ -79,7 +79,7 @@ const Form = () => {
                 </svg></span>
                 <input type={password.Itype} autoComplete='off' className="setbgImg form-control border-0 text-white " onChange={onChange} placeholder="Enter Password" name="password" value={inputs.password} />
             </div>
-            <div className="input-group mb-3 text-danger ">
+            <div className="input-group mb-3 text-danger justify-content-center ">
                 {error.error?error.error:'' || error.errors?error.errors[0].msg:''}
             </div>
 

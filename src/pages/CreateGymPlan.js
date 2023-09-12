@@ -3,7 +3,7 @@ import Gymplan from '../context/Context';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../MyComponents/Spinner';
 import { useDispatch, useSelector } from 'react-redux'
-import { DeleteGymPlan, InsertNewGymPlan, fetchGymPlan, setPlanError } from '../redux/slices/GymPlanSlice'
+import { DeleteGymPlan, EditGymPlan, InsertNewGymPlan, fetchGymPlan, setPlanError } from '../redux/slices/GymPlanSlice'
 
 const CreateGymPlan = () => {
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ const CreateGymPlan = () => {
   let active;
 
   const a = useContext(Gymplan);
-  const {  setError, handleLogout, activeStatusUser,seteditAccess } = a;
+  const { setError, handleLogout, activeStatusUser, seteditAccess } = a;
 
 
   const [input, setInput] = useState({ planMonth: '', planFee: '', planDesc: '' });
@@ -44,7 +44,16 @@ const CreateGymPlan = () => {
     }, 2500);
   }
 
+  const [editBtnValue, seteditBtnValue] = useState({ value: false, id: '' })
+  const editClientBtn = (data) => {
+    setInput({ planMonth: data.plan, planFee: data.planfee, planDesc: data.plandesc })
+    seteditBtnValue({ value: true, id: data._id });
+  }
 
+  const clearBtnClick = () => {
+    setInput({ planMonth: '', planFee: '', planDesc: '' });
+    seteditBtnValue({ value: false, id: '' });
+  }
   useEffect(() => {
 
     if (!localStorage.getItem('token')) {
@@ -55,7 +64,6 @@ const CreateGymPlan = () => {
 
     }
     else {
-      seteditAccess(false);
       active = JSON.parse(localStorage.getItem('user')).active;
       if (active === false) {
         setError({ 'error': 'YOUR ACCESS IS STOPPED BY ADMIN PLEASE RENEWAL YOUR ACCOUNT' })
@@ -109,11 +117,14 @@ const CreateGymPlan = () => {
                     </svg></span>
                     <input autoComplete='off' type="text" className="setbgImg text-white  border-0 form-control" placeholder='Enter Descruption' onChange={onChange} value={input.planDesc} id="planDesc" name="planDesc" />
                   </div>
-                  <div className="input-group mb-3 text-danger ">
+                  <div className="input-group mb-3 text-danger justify-content-center">
                     {gymPlan.error.error ? gymPlan.error.error : '' || gymPlan.error.errors ? gymPlan.error.errors[0].msg : ''}
                   </div>
-                  <div className="d-grid gap-2 mt-2">
-                    <button className="btn text-white fw-bold  mb-4 btnlogIn border-0 " disabled={!input.planDesc || !input.planFee || !input.planMonth ? true : false} type="submit">Create</button>
+                  <div className="d-flex gap-2 mt-2 justify-content-center">
+
+                    {editBtnValue.value ? '' : <button className="btn text-white fw-bold  mb-4 btnlogIn border-0 " disabled={!input.planDesc || !input.planFee || !input.planMonth ? true : false} type="submit">Create</button>}
+                    {editBtnValue.value ? <button className="btn text-white fw-bold  mb-4 btnlogIn border-0 " disabled={!input.planDesc || !input.planFee || !input.planMonth ? true : false} onClick={() => dispatch(EditGymPlan(input, editBtnValue.id))} type="button" >Update</button> : ''}
+                    <button className="btn text-white fw-bold  mb-4 btnlogIn border-0 ms-3" disabled={!input.planDesc && !input.planFee && !input.planMonth ? true : false} type="button" onClick={() => clearBtnClick()}>Cancel</button>
                   </div>
                 </form>
               </div>
@@ -132,8 +143,10 @@ const CreateGymPlan = () => {
                         <div className="card-body">
                           <div className='d-flex'>
                             <p className="card-title "> Plan Name: {clientdata.plan} month</p>
-
-                            <button className='btn btn-sm   btnlogIn ms-auto border-0' onClick={() => dispatch(DeleteGymPlan(clientdata._id))}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3-fill text-danger" viewBox="0 0 16 16">
+                            <button className='btn btn-sm   btnlogIn ms-auto border-0' onClick={() => editClientBtn(clientdata)}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-fill text-danger" viewBox="0 0 16 16">
+                              <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                            </svg></button>
+                            <button className='btn btn-sm   btnlogIn ms-3 border-0' onClick={() => dispatch(DeleteGymPlan(clientdata._id))}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3-fill text-danger" viewBox="0 0 16 16">
                               <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
                             </svg></button>
 

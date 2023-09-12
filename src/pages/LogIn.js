@@ -7,7 +7,6 @@ const LogIn = () => {
     let navigate = useNavigate();
    
     useEffect(() => {
-        
         if (localStorage.getItem('token')) {
             let active =JSON.parse(localStorage.getItem('user')).active?JSON.parse(localStorage.getItem('user')).active:''
             if (active===false) {

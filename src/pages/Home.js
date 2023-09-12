@@ -22,13 +22,9 @@ const Home = () => {
   const { setError, handleLogout, activeStatusUser,seteditAccess} = a;
 
   useEffect(() => {
-    seteditAccess(false);
     if (!localStorage.getItem('token')) {
-
       handleLogout()
       navigate('/login');
-
-
     }
     else {
      

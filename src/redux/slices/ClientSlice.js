@@ -34,13 +34,18 @@ const ClientSlice = createSlice({
         },
         setError(state,action) {
             state.error = action.payload
+        },
+        setEditedClient(state,action) {
+        state.data = state.data.map((ele)=>(
+            ele._id === action.payload._id ? action.payload: ele 
+        ))
         }
 
     }
 
 })
 
-export const { setClient, setStatus, setFilterClientData,setNewClient,setDataAfterDeleteClient,setError} = ClientSlice.actions
+export const { setClient, setStatus, setFilterClientData,setNewClient,setDataAfterDeleteClient,setError,setEditedClient} = ClientSlice.actions
 export default ClientSlice.reducer;
 
 export function fetchClient() {
@@ -119,6 +124,38 @@ export function DeleteClient(clientId) {
             dispatch(setDataAfterDeleteClient(clientId))
             dispatch(setStatus(STATUS.IDEL))
             }
+        } catch (error) {
+            dispatch(setStatus(STATUS.ERROR))
+        }
+    }
+}
+
+export function EditClient(clientData,id) {
+    const { name, address, contact } = clientData;
+    return async function EditClientThunk(dispatch, getState) {
+        dispatch(setStatus(STATUS.LOADING))
+        try {
+            const response = await fetch(`${host}/api/fitness/editClient/${id}`,
+                {
+                    method: "PUT",
+                    mode: "cors",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "auth-token": localStorage.getItem('token'),
+                    },
+                    body: JSON.stringify({ name, address, contact })
+                }
+            );
+            const data = await response.json();
+            if(data.success){
+                dispatch(setEditedClient(data.done))
+                dispatch(setStatus(STATUS.IDEL))
+            }
+            else{
+                dispatch(setError(data))
+                dispatch(setStatus(STATUS.IDEL))
+            }
+           
         } catch (error) {
             dispatch(setStatus(STATUS.ERROR))
         }

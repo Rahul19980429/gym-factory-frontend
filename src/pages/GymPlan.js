@@ -14,7 +14,7 @@ const GymPlan = () => {
 
  
   useEffect(() => {
-    seteditAccess(false);
+   
     if (localStorage.getItem('token') &&  JSON.parse(localStorage.getItem('user')).active===true) {
       dispatch(fetchGymPlan())
     }

@@ -44,7 +44,7 @@ const CreateUser = () => {
     }
   
     useEffect(() => {
-        seteditAccess(false);
+        
         if (!localStorage.getItem('token') ) {
           
           handleLogout()

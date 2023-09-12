@@ -32,13 +32,19 @@ const GymPlanSlice = createSlice({
         },
         setPlanError(state, action) {
             state.error = action.payload
+        },
+        setEditedGymPlan(state,action) {
+            state.data = state.data.map((ele)=>(
+                ele._id === action.payload._id ? action.payload: ele 
+            ))
+
         }
 
     }
 
 })
 
-export const { setGymPlan, setStatus, setNewGymPlan, setDataAfterDeleteGymPlan, setPlanError } = GymPlanSlice.actions
+export const { setGymPlan, setStatus, setNewGymPlan, setDataAfterDeleteGymPlan, setPlanError,setEditedGymPlan } = GymPlanSlice.actions
 export default GymPlanSlice.reducer;
 
 export function fetchGymPlan() {
@@ -118,6 +124,39 @@ export function DeleteGymPlan(gymPlanId) {
             else {
                 alert('This Gym Plan Is Linked To The Cliend. You Can not Delete It Directly.')
                 dispatch(setStatus(STATUS.IDEL))
+            }
+
+        } catch (error) {
+            dispatch(setStatus(STATUS.ERROR))
+        }
+    }
+}
+
+export function EditGymPlan(gymPlanData, gymPlanId) {
+    const {planMonth:plan, planFee:planfee ,planDesc:plandesc} = gymPlanData;
+    return async function EditGymPlanThunk(dispatch, getState) {
+        dispatch(setStatus(STATUS.LOADING))
+        try {
+            const response = await fetch(`${host}/api/gymPlan/updatePlan/${gymPlanId}`,
+                {
+                    method: "PUT",
+                    mode: "cors",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "auth-token": localStorage.getItem('token'),
+                    },
+                    body: JSON.stringify({ plan, planfee ,plandesc })
+                }
+            );
+            const data = await response.json();
+            if (data.success) {
+                dispatch(setEditedGymPlan(data.done))
+                dispatch(setStatus(STATUS.IDEL))
+                dispatch(setPlanError({error:'update successfully'}))
+            }
+            else {
+                dispatch(setStatus(STATUS.IDEL))
+                dispatch(setPlanError(data))
             }
 
         } catch (error) {
