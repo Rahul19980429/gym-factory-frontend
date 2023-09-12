@@ -65,8 +65,8 @@ const UserSetting = () => {
                 </div>
               </div>
                 </div>
-                <div className='col-lg-4 offset-lg-2'>
-                    <form onSubmit={submit} className='pe-lg-5'>
+                <div className='col-lg-5 offset-lg-2'>
+                   <form onSubmit={submit} className='px-3 px-lg-0 pe-lg-5 mt-5 mt-lg-0 mt-md-0'>
                         <div className="input-group mb-3  border border-white rounded-1 ">
                             <span className="bg-opacity-25 input-group-text bg-dark border-0 rounded-0" id="basic-addon1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-plus-fill text-danger" viewBox="0 0 16 16">
                                 <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
