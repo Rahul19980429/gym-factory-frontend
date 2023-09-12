@@ -109,7 +109,7 @@ const UserSetting = () => {
                         <div className="input-group mb-3 text-danger justify-content-center">
                             {error.error}
                         </div>
-                        <div className="d-flex gap-2 mt-2">
+                        <div className="d-flex gap-2 mt-2 justify-content-center">
                             <button className="btn text-white fw-bold  mb-4 btnlogIn border-0 " disabled={boolValue} type="submit">SAVE CHANGES</button>
                             <button className="btn text-white fw-bold  mb-4 btnlogIn border-0 " onClick={() => cancelBtnClick()} type='button' disabled={boolValue}>CANCEL</button>
                         </div>
