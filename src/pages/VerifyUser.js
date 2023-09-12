@@ -71,7 +71,7 @@ const VerifyUser = () => {
                             <div className='card-body text-center px-3 pt-4'>
                                 <form onSubmit={submit}>
                                     <h1 className='text-center  mb-5 text-danger'> Verification </h1>
-                                    <div className="input-group mb-5 border border-white rounded-1">
+                                    <div className="input-group mb-5 mb-lg-3 border border-white rounded-1">
                                         <input type='password' autoComplete='off' className="setbgImg form-control border-0 text-white " onChange={onChange} placeholder="Enter Password" name="password" value={password} />
                                     </div>
                                     <div className="input-group mb-3 text-danger justify-content-center ">
