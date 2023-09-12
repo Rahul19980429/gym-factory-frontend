@@ -53,7 +53,19 @@ const UserSetting = () => {
         <div className='container'>
             <div className='row'>
                 <h4 className='mb-5 mt-4 text-center text-danger'>Here You Can Make Changes In Your Account Profile.</h4>
-                <div className='col-lg-4'>
+                
+                <div className='col-lg-5 '>
+                <div className='card bg-dark bg-opacity-50 p-4'>
+                <div className='card-body btnlogIn text-uppercase text-white'>
+                  <h5 className='py-2'>OWNER NAME: <span className='text-danger'>{userData.name}</span> </h5>
+                  <h5 className='py-2'>Firm name:<span className='text-danger'> {userData.firmname}</span></h5>
+                  <h5 className='py-2'>Contact :<span className='text-danger'> {userData.contact}</span> </h5>
+                  <h5 className='py-2'>Whatsapp Api key : <small className='text-danger'> {userData.apikey?userData.apikey:'For whatsapp message feature you need to contact admin'}</small></h5>
+
+                </div>
+              </div>
+                </div>
+                <div className='col-lg-4 offset-lg-2'>
                     <form onSubmit={submit} className='pe-lg-5'>
                         <div className="input-group mb-3  border border-white rounded-1 ">
                             <span className="bg-opacity-25 input-group-text bg-dark border-0 rounded-0" id="basic-addon1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-plus-fill text-danger" viewBox="0 0 16 16">
@@ -103,17 +115,6 @@ const UserSetting = () => {
                         </div>
                     </form>
 
-                </div>
-                <div className='col-lg-5 offset-lg-2'>
-                <div className='card bg-dark bg-opacity-50 p-4'>
-                <div className='card-body btnlogIn text-uppercase text-white'>
-                  <h5 className='py-2'>OWNER NAME: <span className='text-danger'>{userData.name}</span> </h5>
-                  <h5 className='py-2'>Firm name:<span className='text-danger'> {userData.firmname}</span></h5>
-                  <h5 className='py-2'>Contact :<span className='text-danger'> {userData.contact}</span> </h5>
-                  <h5 className='py-2'>Whatsapp Api key : <small className='text-danger'> {userData.apikey?userData.apikey:'For whatsapp message feature you need to contact admin'}</small></h5>
-
-                </div>
-              </div>
                 </div>
             </div>
 
