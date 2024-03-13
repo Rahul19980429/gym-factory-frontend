@@ -39,6 +39,9 @@ const NavBar = () => {
               <Link  to="/createGymPlan" className={`btn text-danger mx-2 btnlogIn btn-sm fw-bold ${ location.pathname==="/createGymPlan"?"active": ""}`}> Add GYM PLAN</Link>
               </li>
               <li className="nav-item">
+              <Link  to="/balanceSheet" className={`btn text-danger mx-2 btnlogIn btn-sm fw-bold ${ location.pathname==="/balanceSheet"?"active": ""}`}> Balance Sheet</Link>
+              </li>
+              <li className="nav-item">
               <Link  to="/setting" className={`btn text-danger mx-2 btnlogIn btn-sm fw-bold ${ location.pathname==="/setting"?"active": ""}`}> SETTING</Link>
               </li>
             </ul>:""}

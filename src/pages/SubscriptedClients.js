@@ -15,14 +15,16 @@ const SubscriptedClient = () => {
   let active;
   const a = useContext(Context);
   const { 
-    updateActiveClient, setDatefunc, whatsAppApi,
+    //  whatsAppApi,
+
+    updateActiveClient, setDatefunc,
     setError, handleLogout, activeStatusUser,seteditAccess } = a;
 
 
 
   let todayDate = new Date();
 
-  let msg = '';
+  // let msg = '';
 
   const setdateAsgetTime = (date) => {
     let setDate = new Date(date);
@@ -95,17 +97,17 @@ const SubscriptedClient = () => {
 
   const sendMsgToAllExpirePlan = (dataArray) => {
     let apikey = JSON.parse(localStorage.getItem('user')).apikey;
-    if (apikey !== '') {
-      dataArray.map((subData) => {
-        msg = `Hey ${subData.client.name} this message from ${JSON.parse(localStorage.getItem('user')).firmname}. Your  ${subData.gymplan.plan} month (${subData.gymplan.plandesc}) gym plan (${setDatefunc(subData.main.date)} to ${setDatefunc(subData.main.uptodate)}) is expire now. Please renewal your plan. Thank you have a nice day.`
-        whatsAppApi(subData.client.contact, msg)
+    // if (apikey !== '') {
+    //   dataArray.map((subData) => {
+    //     // msg = `Hey ${subData.client.name} this message from ${JSON.parse(localStorage.getItem('user')).firmname}. Your  ${subData.gymplan.plan} month (${subData.gymplan.plandesc}) gym plan (${setDatefunc(subData.main.date)} to ${setDatefunc(subData.main.uptodate)}) is expire now. Please renewal your plan. Thank you have a nice day.`
+    //     // whatsAppApi(subData.client.contact, msg)
 
-      })
-      alert('Send Messages Done')
-    }
-    else {
-      alert('Message Not Send');
-    }
+    //   })
+    //   alert('Send Messages Done')
+    // }
+    // else {
+    //   alert('Message Not Send');
+    // }
 
   }
 
@@ -142,8 +144,8 @@ const SubscriptedClient = () => {
   }
 
   const sendMsgToExpirePlan = (clientData) => {
-    msg = `Hey ${clientData.client.name} this message from ${JSON.parse(localStorage.getItem('user')).firmname}. Your ${clientData.gymplan.plan} month (${clientData.gymplan.plandesc}) gym plan (${setDatefunc(clientData.main.date)} to ${setDatefunc(clientData.main.uptodate)}) is expire now. Please renewal your plan. Thank you have a nice day.  `
-    whatsAppApi(clientData.client.contact, msg)
+    // msg = `Hey ${clientData.client.name} this message from ${JSON.parse(localStorage.getItem('user')).firmname}. Your ${clientData.gymplan.plan} month (${clientData.gymplan.plandesc}) gym plan (${setDatefunc(clientData.main.date)} to ${setDatefunc(clientData.main.uptodate)}) is expire now. Please renewal your plan. Thank you have a nice day.  `
+    // whatsAppApi(clientData.client.contact, msg)
   }
 
   return (
@@ -174,10 +176,10 @@ const SubscriptedClient = () => {
 
           <div className='row py-2 text-white setClient '>
 
-            {clientWithPlan.data.length === 0 ? <h4 className='text-center text-danger my-3'>NOT FOUNT</h4> :
+            {clientWithPlan.data.length === 0 ? <h4 className='text-center text-danger my-3'>NOT FOUND</h4> :
               clientWithPlan.data.map((subData) => {
 
-                if (subData.main.plan_active !== false && setdateAsgetTime(todayDate) > setdateAsgetTime(subData.main.uptodate)) {
+                if (subData.main.plan_active !== false && setdateAsgetTime(todayDate) > setdateAsgetTime(subData.main.plan_Upto_Date)) {
                   updateActiveClient(subData.main._id)
                 }
 
@@ -187,23 +189,23 @@ const SubscriptedClient = () => {
                 return (
 
                   <div className='col-lg-4 col-12' key={subData.main._id}>
-                    <div className={`card my-3 cardhover setbgImg bg-dark bg-opacity-75 setBoxShadow ${setdateAsgetTime(todayDate) > setdateAsgetTime(subData.main.uptodate) ? 'setBoxShadow2' : ''} `} id={`${subData.main._id}`}>
+                    <div className={`card my-3 cardhover setbgImg bg-dark bg-opacity-75 setBoxShadow ${setdateAsgetTime(todayDate) > setdateAsgetTime(subData.main.plan_Upto_Date) ? 'setBoxShadow2' : ''} `} id={`${subData.main._id}`}>
                       <div className="card-body">
                         <div className='row'>
                           <div className=' col-12 position-relative text-capitalize'>
                             <div className='d-flex'>
-                              <h5 className="text-danger"> NAME: {subData.client.name}</h5>
+                              <h5 className="text-danger"> NAME: {subData.main.name}</h5>
 
                               <button className='btn btn-sm   ms-auto me-2 btnlogIn border-0' onClick={() => { dispatch(DeleteClientWithPlan(subData.main._id)) }}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3-fill text-danger" viewBox="0 0 16 16">
                                 <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
                               </svg></button>
                             </div>
 
-                            <p className="card-text fw-bold mb-1"><small>ADDRESS: {subData.client.address}</small></p>
+                            <p className="card-text fw-bold mb-1"><small>ADDRESS: {subData.main.address}</small></p>
 
                             <div className='d-flex'>
-                              <p className="card-text fw-bold mb-1"> <small>CONTACT: {subData.client.contact}</small></p>
-                              {setdateAsgetTime(todayDate) > setdateAsgetTime(subData.main.uptodate) ?
+                              <p className="card-text fw-bold mb-1"> <small>CONTACT: {subData.main.contact}</small></p>
+                              {setdateAsgetTime(todayDate) > setdateAsgetTime(subData.main.plan_Upto_Date) ?
                                 <button className='btn btn-sm   ms-auto me-2 btnlogIn border-0 text-danger setBoxShadow2 border-0 float-end py-0 mt-1' onClick={() => { sendMsgToExpirePlan(subData) }}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-envelope-fill" viewBox="0 0 16 16">
                                   <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z" />
                                 </svg> </button> : ''}
@@ -211,9 +213,9 @@ const SubscriptedClient = () => {
                             <div className='row'>
                               <hr className='border border-2 m-0 border-danger' />
                               <div className=' col-lg-12 col-12'><small><i className=''><span className='text-danger'>{subData.gymplan.plan}</span> Month <span className='text-danger '>{subData.gymplan.plandesc} rs:{subData.gymplan.planfee}</span> Package</i></small></div>
-                              <div className=' col-lg-12 col-12'><small><i className=''>{setDatefunc(subData.main.date)} to <span className='text-danger'>{setDatefunc(subData.main.uptodate)}</span></i></small>
+                              <div className=' col-lg-12 col-12'><small><i className=''>{setDatefunc(subData.main.plan_Start_Date)} to <span className='text-danger'>{setDatefunc(subData.main.plan_Upto_Date)}</span></i></small>
 
-                                {setdateAsgetTime(todayDate) > setdateAsgetTime(subData.main.uptodate) ?
+                                {setdateAsgetTime(todayDate) > setdateAsgetTime(subData.main.plan_Upto_Date) ?
                                   <Link to={`/addnew/plan/${subData.main._id}`} className='btn btn-sm text-danger fw-bold ms-auto setBoxShadow2 border-0 float-end py-0 mt-1'>
                                     Update Plan
                                   </Link> : ''}

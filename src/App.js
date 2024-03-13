@@ -11,6 +11,7 @@ import SubscriptedClient from './pages/SubscriptedClients';
 import CreateUser from './pages/CreateUser';
 import CreateGymPlan from './pages/CreateGymPlan';
 import VerifyUser from './pages/VerifyUser';
+import BalanceSheet from './pages/BalanceSheet';
 
 
 
@@ -41,6 +42,8 @@ function App() {
               <Route exact path="/addnewUser" element={<CreateUser />} />
               {/* this is create gym plan page router */}
               <Route exact path="/createGymPlan" element={<CreateGymPlan />} />
+              {/* this is create balance sheet page router */}
+              <Route exact path="/balanceSheet" element={<BalanceSheet />} />
               {/* this is user setting page router */}
               <Route exact path="/setting" element={<VerifyUser/>} />
               

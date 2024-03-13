@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDispatch } from 'react-redux'
 import { fetchClientWithPlan } from '../redux/slices/ClientWithGymPlanSlice'
 
+// const host = 'http://localhost:3001'
 const host = 'https://gymfactoryapi.vercel.app'
 
 const State = (props) => {
@@ -35,8 +36,8 @@ const State = (props) => {
     const data = await response.json();
     if (data.success) {
       dispatch(fetchClientWithPlan())
-      let msg = `Welcome to the ${JSON.parse(localStorage.getItem('user')).firmname}. Hey ${data.clientData.name} you select ${data.planData.plan} month (${data.planData.plandesc}) plan (${setDatefunc(data.insert.date)} to ${setDatefunc(data.insert.uptodate)}). Thank you have a nice day.`
-      whatsAppApi(data.clientData.contact, msg)
+      // let msg = `Welcome to the ${JSON.parse(localStorage.getItem('user')).firmname}. Hey ${data.clientData.name} you select ${data.planData.plan} month (${data.planData.plandesc}) plan (${setDatefunc(data.insert.date)} to ${setDatefunc(data.insert.uptodate)}). Thank you have a nice day.`
+      // whatsAppApi(data.clientData.contact, msg)
 
     }
     else {
@@ -141,17 +142,17 @@ const State = (props) => {
 
 
  
-  const whatsAppApi = async (clientNumber, message) => {
-    let apikey = JSON.parse(localStorage.getItem('user')).apikey;
-    if (apikey !== '' && clientNumber.length === 10) {
-      await fetch(`https://api.bulkcampaigns.com/api/wapi/?apikey=${apikey}&mobile=${clientNumber}&msg=${message}`)
+  // const whatsAppApi = async (clientNumber, message) => {
+  //   let apikey = JSON.parse(localStorage.getItem('user')).apikey;
+  //   if (apikey !== '' && clientNumber.length === 10) {
+  //     await fetch(`https://api.bulkcampaigns.com/api/wapi/?apikey=${apikey}&mobile=${clientNumber}&msg=${message}`)
 
-    }
-    else {
-      alert('Message Not Send');
-    }
+  //   }
+  //   else {
+  //     alert('Message Not Send');
+  //   }
 
-  }
+  // }
 
   // Login api for user 
   const logInUser = async (contact, password) => {
@@ -243,11 +244,12 @@ const State = (props) => {
         editActiveStatus, setError,
         getAllUsers, createNewUser,
         addClientWithSub,
-        updateActiveClient, whatsAppApi, setDatefunc, handleLogout
+        updateActiveClient,  setDatefunc, handleLogout
         , activeStatusUser, logInUser,
         editUserData,
         verifyUser,
         editAccess, seteditAccess
+        // whatsAppApi,
       }}>
         {props.children}
       </GymContext.Provider>
