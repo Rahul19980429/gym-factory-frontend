@@ -46,8 +46,10 @@ const UserSetting = () => {
         setboolValue(true)
     }
     const resetBalanceSheet = (userId) => {
-        console.log(userId)
+      let areYouSure =  window.confirm("Are you sure");
+        if(areYouSure){
         dispatch(DeleteBalanceSheet(userId))
+        } 
     }
     return (
         (!localStorage.getItem('token')) || active === false ? "" :
