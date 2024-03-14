@@ -25,22 +25,9 @@ const BalanceSheetSlice = createSlice({
         setFilterBalanceSheetData(state, action) {
             state.data = action.payload
         },
-        // setNewClient(state,action) {
-        //     state.data.push(action.payload)
-        // },
-        // setDataAfterDeleteClient(state,action) {
-            
-        //  let newState = state.data.filter((client)=>{return client._id !== action.payload})
-        //  state.data= newState;
-        // },
         setError(state,action) {
             state.error = action.payload
         },
-        // setEditedClient(state,action) {
-        // state.data = state.data.map((ele)=>(
-        //     ele._id === action.payload._id ? action.payload: ele 
-        // ))
-        // }
 
     }
 
@@ -65,7 +52,7 @@ export function fetchBalanceSheet() {
                 }
             );
             const data = await response.json();
-            dispatch(setBalanceSheet(data.completeData))
+            dispatch(setBalanceSheet(data.data))
             dispatch(setStatus(STATUS.IDEL))
         } catch (error) {
             dispatch(setStatus(STATUS.ERROR))
@@ -73,63 +60,32 @@ export function fetchBalanceSheet() {
     }
 }
 
-// export function InsertNewClient(clientData) {
-//     const { name, address, contact } = clientData;
-//     return async function InsertNewClientThunk(dispatch, getState) {
-//         dispatch(setStatus(STATUS.LOADING))
-//         try {
-//             const response = await fetch(`${host}/api/fitness/createNew`,
-//                 {
-//                     method: "POST",
-//                     mode: "cors",
-//                     headers: {
-//                         "Content-Type": "application/json",
-//                         "auth-token": localStorage.getItem('token'),
-//                     },
-//                     body: JSON.stringify({ name, address, contact })
-//                 }
-//             );
-//             const data = await response.json();
-//             if(data.success){
-//                 dispatch(setNewClient(data.insert))
-//                 dispatch(setStatus(STATUS.IDEL))
-//             }
-//             else{
-//                 dispatch(setError(data))
-//                 dispatch(setStatus(STATUS.IDEL))
-//             }
-           
-//         } catch (error) {
-//             dispatch(setStatus(STATUS.ERROR))
-//         }
-//     }
-// }
 
-// export function DeleteClient(clientId) {
-    
-//     return async function DeleteClientThunk(dispatch, getState) {
-//         dispatch(setStatus(STATUS.LOADING))
-//         try {
-//             const response = await fetch(`${host}/api/fitness/deleteClient/${clientId}`,{
-//                 method: "DELETE",
-//                 mode: "cors",
-//                 headers: {
-//                   "Content-Type": "application/json",
-//                   "auth-token":localStorage.getItem('token'),
+
+export function DeleteBalanceSheet(userId) {
+    return async function DeleteBalanceSheetThunk(dispatch, getState) {
+        dispatch(setStatus(STATUS.LOADING))
+        try {
+            const response = await fetch(`${host}/api/balanceSheet/deleteEntries/${userId}`,{
+                method: "DELETE",
+                mode: "cors",
+                headers: {
+                  "Content-Type": "application/json",
+                  "auth-token":localStorage.getItem('token'),
                     
-//                 },
-//               }
-//             );
-//             const data = await response.json();
-//             if(data.success){
-//             dispatch(setDataAfterDeleteClient(clientId))
-//             dispatch(setStatus(STATUS.IDEL))
-//             }
-//         } catch (error) {
-//             dispatch(setStatus(STATUS.ERROR))
-//         }
-//     }
-// }
+                },
+              }
+            );
+            const data = await response.json();
+            if(data.success){
+            dispatch(setBalanceSheet(''))
+            dispatch(setStatus(STATUS.IDEL))
+            }
+        } catch (error) {
+            dispatch(setStatus(STATUS.ERROR))
+        }
+    }
+}
 
 // export function EditClient(clientData,id) {
 //     const { name, address, contact } = clientData;

@@ -8,7 +8,8 @@ import { fetchBalanceSheet, setFilterBalanceSheetData } from '../redux/slices/Ba
 
 const BalanceSheet = () => {
     const dispatch = useDispatch();
-    const balanceSheetData = useSelector((state) => state.balanceSheet)
+    const balanceSheetData = useSelector((state) => state.balanceSheet.data)
+
     const a = useContext(Context);
     const { spinner, setError, handleLogout, setDatefunc } = a;
 
@@ -18,7 +19,7 @@ const BalanceSheet = () => {
         return date1;
     }
     const DateFilterFunction = (from, to, BalanceSheetData) => {
-        let data = BalanceSheetData.filter((data) => { return (setdateAsgetTime(data.main.date) >= setdateAsgetTime(from)) && (setdateAsgetTime(to) >= setdateAsgetTime(data.main.date)) });
+        let data = BalanceSheetData.filter((data) => { return (setdateAsgetTime(data.date) >= setdateAsgetTime(from)) && (setdateAsgetTime(to) >= setdateAsgetTime(data.date)) });
         return data;
 
     }
@@ -37,7 +38,7 @@ const BalanceSheet = () => {
         else {
             let From = new Date(input.dateFrom)
             let To = new Date(input.dateTo)
-            let data = DateFilterFunction(From, To, balanceSheetData.data)
+            let data = DateFilterFunction(From, To, balanceSheetData)
             dispatch(setFilterBalanceSheetData(data))
             setInput({ dateFrom: '', dateTo: '' })
         }
@@ -48,9 +49,7 @@ const BalanceSheet = () => {
         dispatch(fetchBalanceSheet())
     }
 
-    // const resetBalanceSheet = () => {
-    //     // dispatch(fetchBalanceSheet())
-    // }
+
     useEffect(() => {
 
         if (localStorage.getItem('token') && JSON.parse(localStorage.getItem('user')).active === true) {
@@ -75,7 +74,7 @@ const BalanceSheet = () => {
             <div className=' container  mt-4'>
                 <div className='row'>
                     <div className='col-lg-8'>
-                        <div className='setClient' style={{ overflowX: 'hidden' }}>
+                        <div className='setClient'>
                             <table className='table bg-dark bg-opacity-50 btnlogIn fw-bold  stn-sm mx-1 text-white px-2'>
                                 <thead>
                                     <tr>
@@ -86,16 +85,16 @@ const BalanceSheet = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {balanceSheetData.data.length === 0 ? <tr><td className='text-center text-danger' colSpan={4}>"Not Found"</td></tr> :
-                                        balanceSheetData.data.map((data, index) => {
+                                    {balanceSheetData.length === 0 ? <tr><td className='text-center text-danger' colSpan={4}>"Not Found"</td></tr> :
+                                        balanceSheetData.map((data, index) => {
 
                                             return (
 
                                                 <tr key={index}>
                                                     <td className='text-danger'>{index + 1}</td>
-                                                    <td className='text-white '> {data.ClientData.name} {data.ClientData.contact} </td>
-                                                    <td className='text-danger'> {data.main.amount} </td>
-                                                    <td className='text-danger'> {setDatefunc(data.main.date)} </td>
+                                                    <td className='text-white '> {data.clientName} {data.clientContact} </td>
+                                                    <td className='text-danger'> {data.amount} </td>
+                                                    <td className='text-danger'> {setDatefunc(data.date)} </td>
                                                 </tr>
 
                                             )
@@ -108,9 +107,9 @@ const BalanceSheet = () => {
                         <table className='mt-2 table bg-dark bg-opacity-50 btnlogIn fw-bold  stn-sm mx-1 text-white'>
                             <tfoot style={{ border: 'none' }}>
                                 <tr>
-                                    <th className='text-danger' colSpan={2}>Total Entries:{balanceSheetData.data.length}</th>
+                                    <th className='text-danger' colSpan={2}>Total Entries:{balanceSheetData.length}</th>
 
-                                    <th className='text-danger' colSpan={2}> Net Amount: {balanceSheetData.data.length > 0 ? balanceSheetData.data.map((data) => data.main.amount).reduce((a, b) => a + b) : 0}</th>
+                                    <th className='text-danger' colSpan={2}> Net Amount: {balanceSheetData.length > 0 ? balanceSheetData.map((data) => data.amount).reduce((a, b) => a + b) : 0}</th>
 
 
                                 </tr>
@@ -118,28 +117,27 @@ const BalanceSheet = () => {
                         </table>
                     </div>
                     <div className='col-lg-4'>
-                      
 
-                            <div className="input-group mb-3 border border-white rounded-1">
-                                <span className="bg-opacity-25 input-group-text text-danger bg-dark border-0 rounded-0">Date From</span>
-                                <input autoComplete='off' type="date" className="setbgImg text-white border-0 form-control" placeholder='' onChange={onChange} value={input.dateFrom} id="dateFrom" name="dateFrom" />
 
-                            </div>
-                            <div className="input-group mb-3 border border-white rounded-1">
-                                <span className="bg-opacity-25 input-group-text text-danger bg-dark border-0 rounded-0">Date To</span>
-                                <input autoComplete='off' type="date" className="setbgImg text-white border-0 form-control" placeholder='' onChange={onChange} value={input.dateTo} id="dateTo" name="dateTo" />
+                        <div className="input-group mb-3 border border-white rounded-1">
+                            <span className="bg-opacity-25 input-group-text text-danger bg-dark border-0 rounded-0">Date From</span>
+                            <input autoComplete='off' type="date" className="setbgImg text-white border-0 form-control" placeholder='' onChange={onChange} value={input.dateFrom} id="dateFrom" name="dateFrom" />
 
-                            </div>
+                        </div>
+                        <div className="input-group mb-3 border border-white rounded-1">
+                            <span className="bg-opacity-25 input-group-text text-danger bg-dark border-0 rounded-0">Date To</span>
+                            <input autoComplete='off' type="date" className="setbgImg text-white border-0 form-control" placeholder='' onChange={onChange} value={input.dateTo} id="dateTo" name="dateTo" />
 
-                            <div className="d-flex gap-2 mt-2 justify-content-center">
+                        </div>
 
-                                <button className="btn text-white fw-bold  mb-4 btnlogIn border-0 " disabled={input.dateFrom && input.dateTo == '' ? true : false} onClick={submit}>OK</button>
-                                <button className="btn text-white fw-bold  mb-4 btnlogIn border-0 " onClick={refreshClicked}>REFRESH</button>
-                            </div>
-                      
+                        <div className="d-flex gap-2 mt-2 justify-content-center">
+
+                            <button className="btn text-white fw-bold  mb-4 btnlogIn border-0 " disabled={input.dateFrom && input.dateTo == '' ? true : false} onClick={submit}>OK</button>
+                            <button className="btn text-white fw-bold  mb-4 btnlogIn border-0 " onClick={refreshClicked}>REFRESH</button>
+                        </div>
+
                         <div>
-                           
-                            {/* <button className="btn text-white fw-bold  mb-4 btnlogIn border-0 " onClick={resetBalanceSheet}>RESET BALANCE SHEET</button> */}
+
                         </div>
                     </div>
 
