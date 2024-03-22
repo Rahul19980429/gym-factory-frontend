@@ -8,7 +8,7 @@ import { fetchBalanceSheet, setFilterBalanceSheetData } from '../redux/slices/Ba
 
 const BalanceSheet = () => {
     const dispatch = useDispatch();
-    const balanceSheetData = useSelector((state) => state.balanceSheet.data)
+    const balanceSheetData = useSelector((state) => state.balanceSheet.data);
 
     const a = useContext(Context);
     const { spinner, setError, handleLogout, setDatefunc } = a;
@@ -19,6 +19,7 @@ const BalanceSheet = () => {
         return date1;
     }
     const DateFilterFunction = (from, to, BalanceSheetData) => {
+
         let data = BalanceSheetData.filter((data) => { return (setdateAsgetTime(data.date) >= setdateAsgetTime(from)) && (setdateAsgetTime(to) >= setdateAsgetTime(data.date)) });
         return data;
 
@@ -29,24 +30,27 @@ const BalanceSheet = () => {
         setInput({ ...input, [e.target.name]: e.target.value })
 
     }
-    const submit = (e) => {
+    const submit =(e) => {
         e.preventDefault()
-
         if (!input.dateFrom || !input.dateTo) {
             alert("Empty field is not allowed")
         }
         else {
+           
             let From = new Date(input.dateFrom)
             let To = new Date(input.dateTo)
             let data = DateFilterFunction(From, To, balanceSheetData)
             dispatch(setFilterBalanceSheetData(data))
             setInput({ dateFrom: '', dateTo: '' })
+            document.getElementById('balanceSheetFilterBtn').disabled=true;
+           
         }
 
     }
 
     const refreshClicked = () => {
         dispatch(fetchBalanceSheet())
+        document.getElementById('balanceSheetFilterBtn').disabled=false;
     }
 
 
@@ -132,7 +136,7 @@ const BalanceSheet = () => {
 
                         <div className="d-flex gap-2 mt-2 justify-content-center">
 
-                            <button className="btn text-white fw-bold  mb-4 btnlogIn border-0 " disabled={input.dateFrom && input.dateTo == '' ? true : false} onClick={submit}>OK</button>
+                            <button className="btn text-white fw-bold  mb-4 btnlogIn border-0 " id="balanceSheetFilterBtn" onClick={submit}>OK</button>
                             <button className="btn text-white fw-bold  mb-4 btnlogIn border-0 " onClick={refreshClicked}>REFRESH</button>
                         </div>
 
