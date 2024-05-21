@@ -3,7 +3,7 @@ import context from '../context/Context';
 import { useNavigate } from 'react-router-dom';
 const Form = () => {
     const navigate = useNavigate();
-    let result;
+    
     const a = useContext(context);
     const { logInUser, error, setError } = a;
     const [inputs, setInputs] = useState({ contact: "", password: "" })
@@ -47,9 +47,9 @@ const Form = () => {
     }
 
     // for login or submit
-    const submit = async (e) => {
+    const submit = (e) => {
         e.preventDefault();
-        result = await logInUser(inputs.contact, inputs.password);
+        logInUser(inputs.contact, inputs.password).then((result)=>{
         if (result.success) {
             localStorage.setItem('token', result.token)
             localStorage.setItem('user', JSON.stringify(result.user))
@@ -60,6 +60,7 @@ const Form = () => {
             navigate('/login')
 
         }
+     })
 
     }
     return (
