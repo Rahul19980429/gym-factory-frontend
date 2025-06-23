@@ -43,7 +43,7 @@ const SubscriptedClient = () => {
   // expire click btn
   const filterExpire = async () => {
 
-    let res = await clientWithPlan.data.filter((data) => { return setdateAsgetTime(todayDate) > compareDates(data.main.date, data.gymplan.plan) })
+    let res = await clientWithPlan.data.filter((data)=>data.main.plan_active===false)
     dispatch(setFilterData(res))
     document.getElementById('sendAllMsg').classList.remove('d-none');
     document.getElementById("runBtn").disabled = true;
@@ -54,7 +54,7 @@ const SubscriptedClient = () => {
   // running plan click btn
 
   const filterRunPlan = async () => {
-    let res = await clientWithPlan.data.filter((data) => { return setdateAsgetTime(todayDate) <= compareDates(data.main.date, data.gymplan.plan) })
+    let res = await clientWithPlan.data.filter((data)=>data.main.plan_active!==false)
     dispatch(setFilterData(res))
     document.getElementById('sendAllMsg').classList.add('d-none');
     document.getElementById("expireBtn").disabled = true;
