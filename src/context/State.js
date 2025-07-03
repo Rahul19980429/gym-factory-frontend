@@ -21,7 +21,7 @@ const State = (props) => {
   }
 
   // add a client with gym plan
-  const addClientWithSub = async (client_id, plan_id) => {
+  const addClientWithSub = async (client_id, plan_id , date_from) => {
     const response = await fetch(`${host}/api/clientwithplan/new`,
       {
         method: "POST",
@@ -30,7 +30,7 @@ const State = (props) => {
           "Content-Type": "application/json",
           "auth-token": localStorage.getItem('token'),
         },
-        body: JSON.stringify({ client_id, plan_id })
+        body: JSON.stringify({ client_id, plan_id , date_from })
       }
     );
     const data = await response.json();
