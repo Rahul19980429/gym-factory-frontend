@@ -85,7 +85,7 @@ const BalanceSheet = () => {
                                         <th className='text-danger'>SNo.</th>
                                         <th className='text-danger'>Client</th>
                                         <th className='text-danger'>Amount</th>
-                                        <th className='text-danger'>Date (DD/MM/YYYY)</th>
+                                        <th className='text-danger'>DD/MM/YYYY</th>
                                     </tr>
                                 </thead>
                                 <tbody>
