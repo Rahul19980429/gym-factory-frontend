@@ -96,11 +96,15 @@ const BalanceSheet = () => {
 
                                                 <tr key={index}>
                                                     <td className='text-danger'>{index + 1}</td>
-                                                    <td className='text-white '> {data.clientName} {data.clientContact} </td>
+                                                    <td className='text-white '> 
+                                                        <tr> <td className='text-white '>{data.clientName} </td>
+                                                             <td className='text-white '>{data.clientContact} </td>
+                                                            </tr>
+                                                        </td>
+                                                     {/* <td className='text-white '>{data.clientContact} </td> */}
                                                     <td className='text-danger'> {data.amount} </td>
                                                     <td className='text-danger'> {setDatefunc(data.date)} </td>
                                                 </tr>
-
                                             )
 
 
