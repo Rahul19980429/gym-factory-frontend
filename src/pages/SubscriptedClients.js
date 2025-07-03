@@ -14,11 +14,11 @@ const SubscriptedClient = () => {
   let navigate = useNavigate();
   let active;
   const a = useContext(Context);
-  const { 
+  const {
     //  whatsAppApi,
 
     updateActiveClient, setDatefunc,
-    setError, handleLogout, activeStatusUser,seteditAccess } = a;
+    setError, handleLogout, activeStatusUser, seteditAccess } = a;
 
 
 
@@ -42,8 +42,10 @@ const SubscriptedClient = () => {
 
   // expire click btn
   const filterExpire = async () => {
+    let res = await clientWithPlan.data.filter((data) => data.main.plan_active === false)
 
-    let res = await clientWithPlan.data.filter((data)=>data.main.plan_active===false)
+    // let res = await clientWithPlan.data.filter((data) => {
+    //    return setdateAsgetTime(todayDate) > compareDates(data.main.date, data.gymplan.plan) })
     dispatch(setFilterData(res))
     document.getElementById('sendAllMsg').classList.remove('d-none');
     document.getElementById("runBtn").disabled = true;
@@ -54,7 +56,7 @@ const SubscriptedClient = () => {
   // running plan click btn
 
   const filterRunPlan = async () => {
-    let res = await clientWithPlan.data.filter((data)=>data.main.plan_active!==false)
+    let res = await clientWithPlan.data.filter((data) => data.main.plan_active !== false)
     dispatch(setFilterData(res))
     document.getElementById('sendAllMsg').classList.add('d-none');
     document.getElementById("expireBtn").disabled = true;
@@ -121,7 +123,7 @@ const SubscriptedClient = () => {
 
     }
     else {
-    
+
       active = JSON.parse(localStorage.getItem('user')).active;
       if (active === false) {
         setError({ 'error': 'YOUR ACCESS IS STOPPED BY ADMIN PLEASE RENEWAL YOUR ACCOUNT' })
@@ -214,8 +216,8 @@ const SubscriptedClient = () => {
                               <hr className='border border-2 m-0 border-danger' />
                               <div className=' col-lg-12 col-12'><small><i className=''><span className='text-danger'>{subData.gymplan.plan}</span> Month <span className='text-danger '>{subData.gymplan.plandesc} rs:{subData.gymplan.planfee}</span> Package</i></small></div>
                               <div className=' col-lg-12 col-12'><small><i className=''>{setDatefunc(subData.main.plan_Start_Date)} to <span className='text-danger'>{setDatefunc(subData.main.plan_Upto_Date)}</span></i></small>
-
-                                {setdateAsgetTime(todayDate) > setdateAsgetTime(subData.main.plan_Upto_Date) ?
+                              
+                                {subData.main.plan_active===false ?
                                   <Link to={`/addnew/plan/${subData.main._id}`} className='btn btn-sm text-danger fw-bold ms-auto setBoxShadow2 border-0 float-end py-0 mt-1'>
                                     Update Plan
                                   </Link> : ''}

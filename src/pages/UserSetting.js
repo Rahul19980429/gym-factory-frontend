@@ -46,7 +46,7 @@ const UserSetting = () => {
         setboolValue(true)
     }
     const resetBalanceSheet = (userId) => {
-      let areYouSure =  window.confirm("Are you sure");
+        let areYouSure =  window.confirm("Are you sure");
         if(areYouSure){
         dispatch(DeleteBalanceSheet(userId))
         } 
