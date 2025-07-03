@@ -12,6 +12,7 @@ import CreateUser from './pages/CreateUser';
 import CreateGymPlan from './pages/CreateGymPlan';
 import VerifyUser from './pages/VerifyUser';
 import BalanceSheet from './pages/BalanceSheet';
+import EditJoining from './pages/EditClientJoinigDate';
 
 
 
@@ -38,6 +39,8 @@ function App() {
               <Route exact path="/addnew" element={<AddNewClient />} />
               {/* this is gym plan display page router */}
               <Route exact path="/addnew/plan/:id" element={<GymPlan />} />
+              {/* this is gym plan Date page router */}
+              <Route exact path="/addnew/plan/date/:id/:pid" element={<EditJoining/>} />
               {/* this is create user page router */}
               <Route exact path="/addnewUser" element={<CreateUser />} />
               {/* this is create gym plan page router */}
